@@ -1,0 +1,59 @@
+<html>
+<head>
+	<meta charset=utf-8 />
+	<title>Simple ImageMapLayer</title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	
+	<!-- Access jQuery Library -->
+	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Josefin+Slab:700' rel='stylesheet' type='text/css'>
+	
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+	<!-- Load Leaflet from CDN-->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/leaflet/0.7.3/leaflet.css" />
+	<script src="//cdn.jsdelivr.net/leaflet/0.7.3/leaflet.js"></script>
+
+	<!-- Load Esri Leaflet from CDN -->
+	<script src="//cdn.jsdelivr.net/leaflet.esri/1.0.0/esri-leaflet.js"></script>
+
+	<!-- visjs -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/3.11.0/vis.min.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/3.11.0/vis.min.css" rel="stylesheet" type="text/css" />
+
+
+	<!-- stylesheet -->
+	<link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<h4>Open Text Search:</h4>
+
+		<div class="form-inline">
+			<input type="text" class="form-control" id="search-text" placeholder="search text" tabindex="1">
+			<button class="btn btn-default" onclick="latimes.searchObjects()" tabindex="2">search</button>
+		</div>
+	</div>
+	<div id="results-title"></div>
+	<div id="map">
+		<p>Main content</p>
+	</div>
+	
+	<div id="timebar"></div>
+	
+</div>
+
+	<!-- javascript -->
+	<script src="js/latimes.js"></script>
+
+</body>
+</html>
