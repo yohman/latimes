@@ -9,11 +9,20 @@ var latimes = {
 	markers: 		new L.FeatureGroup(),
 	timebaritems: 	[],
 }
+var owl = $("#photo-container");
+
+var modal = new Foundation.Reveal($('#modal'));
 
 
 // Run on page load
 $( document ).ready(function() {
 	latimes.initialize();
+    $(document).foundation();
+
+		
+
+
+
 });
 
 latimes.initialize = function()
@@ -31,7 +40,13 @@ latimes.searchObjects = function()
 		latimes.markers.clearLayers();
 	}
 
-	$('#thumb-container').empty();
+	$('#photo-container').html('');
+	owl = $("#photo-container");
+	owl.owlCarousel({
+		navigation : true,
+		paginationNumbers: true
+	});
+
 	$('#timebar').empty();
 
 	latimes.timebaritems.length = 0;
@@ -52,7 +67,7 @@ latimes.searchObjects = function()
 			var latitude = val['Description.latitude'];
 			var start = val['Date.cleaned'];
 			var imageurl = val['imageurl'];
-			var imagehtml = '<img src="'+imageurl+'" width="35">';
+			var imagehtml = '<img src="'+imageurl+'" class="thumbnail" width="">';
 			var imagefullhtml = '<img src="'+imageurl+'">';
 			var mapme = true;
 
@@ -80,6 +95,7 @@ latimes.searchObjects = function()
 
 				var markerdata = 
 				{
+					id: i,
 					name: val.Title,
 					lat: latitude,
 					lng: longitude,
@@ -87,16 +103,19 @@ latimes.searchObjects = function()
 					// type: 'point',
 					imageurl: imageurl,
 					// content: val.Title.substring(0,10)+'...'
-					content: imagehtml,
-					icon:   icon
+					tooltip: imagehtml,
+					icon:   icon,
+					type: 'point'
 				}
 				console.log(markerdata)
 				// add the data to the timebar items array
 				latimes.timebaritems.push(markerdata);
 
-				$('#thumb-container').append('<div class="thumb-box well" onclick="" >lat:'+val.Title+'<br>'+val['Date.creation']+'</div>')
-
-				var marker = L.marker([val['Description.latitude'],val['Description.longitude']],{icon:icon}).bindPopup(val.Title+'<br>'+imagefullhtml);
+				// $('#photo-container').append('<div class="item" onclick="" >'+imagehtml+'<br>'+val.Title+'</div>')
+				var content = '<div class="item" onclick="latimes.popup('+i+')" >'+imagehtml+'</div>';
+				owl.data('owlCarousel').addItem(content);
+  
+				var marker = L.marker([val['Description.latitude'],val['Description.longitude']]).bindPopup(val.Title+'<br>'+imagefullhtml);
 				latimes.markers.addLayer(marker);
 			}
 			else
@@ -105,6 +124,8 @@ latimes.searchObjects = function()
 				console.log(error)
 			}
 		})
+
+
 
 		latimes.map.addLayer(latimes.markers);
 		latimes.map.fitBounds(latimes.markers.getBounds());
@@ -138,5 +159,19 @@ latimes.createTimebar = function()
 
 	// Create a Timeline
 	latimes.timeline = new vis.Timeline(timebarcontainer, visitems, options);
+
+	latimes.timeline.on('select', function (properties) {
+      	id = properties.items[0];
+      	latimes.popup(id);
+    });
+
+}
+
+latimes.popup = function(id)
+{
+  	var thisitem = latimes.timebaritems[id];
+	$('#modal-content').html(thisitem.tooltip);
+	$('#modal-caption').html(thisitem.name);
+	modal.open();
 
 }

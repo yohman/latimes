@@ -1,4 +1,4 @@
-<html>
+  <html>
 <head>
 	<meta charset=utf-8 />
 	<title>Simple ImageMapLayer</title>
@@ -9,14 +9,11 @@
 	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<link href='https://fonts.googleapis.com/css?family=Josefin+Slab:700' rel='stylesheet' type='text/css'>
 	
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
-
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+	<!-- Foundation -->
+	<link rel="stylesheet" href="css/foundation.css" />
+	<link rel="stylesheet" href="css/app.css" />
+	<!-- Compressed JavaScript -->
+	<script src="https://cdn.jsdelivr.net/foundation/6.1.1/foundation.min.js"></script>
 
 	<!-- Load Leaflet from CDN-->
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/leaflet/0.7.3/leaflet.css" />
@@ -29,26 +26,74 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/3.11.0/vis.min.js"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/3.11.0/vis.min.css" rel="stylesheet" type="text/css" />
 
+    <!-- Owl Carousel Assets -->
+    <link href="owl-carousel/owl.carousel.css" rel="stylesheet">
+    <link href="owl-carousel/owl.theme.css" rel="stylesheet">
+    <script src="owl-carousel/owl.carousel.js"></script>
 
 	<!-- stylesheet -->
 	<link href="css/style.css" rel="stylesheet" type="text/css" />
+
+	<style>
+	</style>
+
+
 </head>
 <body>
 <div id="container">
-	<div id="header">
-		<h4>Open Text Search:</h4>
 
-		<div class="form-inline">
-			<input type="text" class="form-control" id="search-text" placeholder="search text" tabindex="1">
-			<button class="btn btn-default" onclick="latimes.searchObjects()" tabindex="2">search</button>
+
+	<div class="reveal" id="modal" data-reveal data-reset-on-close="true">
+		<h2 id="modal-title"></h2>
+		<div id='modal-content'></div>
+		<div class="caption" id='modal-caption'></div>
+		<button class="close-button" data-close aria-label="Close reveal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
+	<div class="row">
+		<div class="input-group">
+			<span class="input-group-label">Search:</span>
+			<input type="text" class="input-group-field" id="search-text" placeholder="ex: Lakers, Chinatown" tabindex="1">
+			<div class="input-group-button">
+				<button type="button" class="button" onclick="latimes.searchObjects()" tabindex="2">search</button>
+			</div>
 		</div>
 	</div>
-	<div id="results-title"></div>
-	<div id="map">
-		<p>Main content</p>
+	<div class="row" id="results-title"></div>
+
+	<div class="row" id="timebar"></div>
+	<div class="row" id="map"></div>
+	<div class="row">
+		<div id="photo-container" class="owl-carousel">
+		  
+		 <!--  <div class="item"><h1>1</h1></div>
+		  <div class="item"><h1>2</h1></div>
+		  <div class="item"><h1>3</h1></div>
+		  <div class="item"><h1>4</h1></div>
+		  <div class="item"><h1>5</h1></div>
+		  <div class="item"><h1>6</h1></div>
+		  <div class="item"><h1>7</h1></div>
+		  <div class="item"><h1>8</h1></div>
+		  <div class="item"><h1>9</h1></div>
+		  <div class="item"><h1>10</h1></div>
+		  <div class="item"><h1>11</h1></div>
+		  <div class="item"><h1>12</h1></div>
+		  <div class="item"><h1>13</h1></div>
+		  <div class="item"><h1>14</h1></div>
+		  <div class="item"><h1>15</h1></div>
+		  <div class="item"><h1>16</h1></div>
+		  <div class="item"><h1>17</h1></div>
+		  <div class="item"><h1>18</h1></div>
+		  <div class="item"><h1>19</h1></div>
+		  <div class="item"><h1>20</h1></div> -->
+
+		</div>
 	</div>
-	
-	<div id="timebar"></div>
+
+
+		
 	
 </div>
 
