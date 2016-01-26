@@ -10,25 +10,31 @@ var latimes = {
 	timebaritems: 	[],
 }
 var owl = $("#photo-container");
+owl.owlCarousel({
+	items : 10, //10 items above 1000px browser width
+	itemsDesktop : [1000,5], //5 items between 1000px and 901px
+	itemsDesktopSmall : [900,3], // betweem 900px and 601px
+	itemsTablet: [600,2], //2 items between 600 and 0
+	itemsMobile : false, // itemsMobile disabled - inherit from itemsTablet option
+	navigation : true,
+	paginationNumbers: true
+});
 
 var modal = new Foundation.Reveal($('#modal'));
-
 
 // Run on page load
 $( document ).ready(function() {
 	latimes.initialize();
     $(document).foundation();
-
-		
-
-
-
 });
 
 latimes.initialize = function()
 {
 	latimes.map = L.map('map').setView([34.0697, -118.2286], 10);
-	L.esri.basemapLayer('Streets').addTo(latimes.map);
+	L.esri.basemapLayer('Imagery').addTo(latimes.map);
+	L.esri.basemapLayer('ImageryLabels').addTo(latimes.map);
+	latimes.createTimebar();
+
 }
 
 latimes.searchObjects = function()
@@ -41,11 +47,7 @@ latimes.searchObjects = function()
 	}
 
 	$('#photo-container').html('');
-	owl = $("#photo-container");
-	owl.owlCarousel({
-		navigation : true,
-		paginationNumbers: true
-	});
+	// owl = $("#photo-container");
 
 	$('#timebar').empty();
 
@@ -59,8 +61,7 @@ latimes.searchObjects = function()
 	var proxyurl = latimes.proxyurl+encodedurl;
 
 	$.getJSON(proxyurl,function(data){
-		console.log(data);
-		// mapdata = data.features;
+
 		$('#results-title').html('Found '+data.result.records.length+' photos:');
 		$.each(data.result.records,function(i,val){
 			var longitude = val['Description.longitude'];
@@ -71,7 +72,6 @@ latimes.searchObjects = function()
 			var imagefullhtml = '<img src="'+imageurl+'">';
 			var mapme = true;
 
-			console.log(start)
 			var error = '';
 			if(longitude == ''){ mapme = false; error = 'longitude is empy; '}
 			if(latitude == ''){ mapme = false; error = 'latitude is empy; ' }
@@ -80,13 +80,8 @@ latimes.searchObjects = function()
 
 			if(isNaN(longitude)){ mapme = false;  error = 'longitude is NaN; ' }
 			if(isNaN(latitude)){ mapme = false;  error = 'latitude is NaN; ' }
-			// if(isNaN(start)){ mapme = false;  error = 'start is NaN; ' }
-
-			// if(isNaN(start)){ mapme = false; }
-			console.log(latitude)
 			if(mapme)
 			{
-				console.log('in mapme')
 
 				var icon = L.icon({
 					iconUrl: imageurl,
@@ -107,7 +102,6 @@ latimes.searchObjects = function()
 					icon:   icon,
 					type: 'point'
 				}
-				console.log(markerdata)
 				// add the data to the timebar items array
 				latimes.timebaritems.push(markerdata);
 
@@ -117,11 +111,6 @@ latimes.searchObjects = function()
   
 				var marker = L.marker([val['Description.latitude'],val['Description.longitude']]).bindPopup(val.Title+'<br>'+imagefullhtml);
 				latimes.markers.addLayer(marker);
-			}
-			else
-			{
-				console.log('mapme must be false')
-				console.log(error)
 			}
 		})
 
