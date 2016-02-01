@@ -33,9 +33,15 @@ var objects;
 
 // Run on page load
 $( document ).ready(function() {
+	latimes.adjustHeight();
 	latimes.initialize();
 	$(document).foundation();
 });
+
+latimes.adjustHeight = function()
+{
+	$('#map').height($(window).height()-450);
+}
 
 latimes.initialize = function()
 {
@@ -88,85 +94,92 @@ latimes.clearMap = function()
 latimes.searchObjects = function()
 {
 
-	latimes.clearMap();
-	$('#timebar').empty();
-	latimes.timebaritems.length = 0;
-
 	var searchterm = $('#search-text').val();
 	var data = searchFor(searchterm);
 
-	// sort by year
-	data.sort(function(a, b) {
-		return parseFloat(a.year) - parseFloat(b.year);
-	});
+	if(data.length > 500)
+	{
+		alert('Found more than 500 photos ('+data.length+'). Narrow your search please!')
+	}
+	else
+	{
+		latimes.clearMap();
+		$('#timebar').empty();
+		latimes.timebaritems.length = 0;
 
-	$('#results-title').html('Found '+data.length+' photos:');
-	$.each(data,function(i,val){
-		var longitude = Number(val['lon']);
-		var latitude = Number(val['lat']);
-		var start = Number(val['year']);
-		var imageurl = val['imageurl'];
-		var imagelocalpath = "photos/"+imageurl.substr(imageurl.indexOf("jpegs/") + 6)
+		// sort by year
+		data.sort(function(a, b) {
+			return parseFloat(a.year) - parseFloat(b.year);
+		});
 
-		var imagehtml = '<img src="'+imagelocalpath+'" class="thumbnail" width="">';
-		var imagefullhtml = '<img src="'+imagelocalpath+'">';
-		var mapme = true;
+		$('#results-title').html('Found '+data.length+' photos:');
+		$.each(data,function(i,val){
+			var longitude = Number(val['lon']);
+			var latitude = Number(val['lat']);
+			var start = Number(val['year']);
+			var imageurl = val['imageurl'];
+			var imagelocalpath = "photos/"+imageurl.substr(imageurl.indexOf("jpegs/") + 6)
 
-		var error = '';
-		if(longitude == ''){ mapme = false; error = 'longitude is empy; '}
-		if(latitude == ''){ mapme = false; error = 'latitude is empy; ' }
-		if(start == ''){ mapme = false; error = 'start is empy; ' }
-		if(start == null){ mapme = false; error = 'start is null; ' }
+			var imagehtml = '<img src="'+imagelocalpath+'" class="" width="">';
+			var imagefullhtml = '<img src="'+imagelocalpath+'">';
+			var mapme = true;
 
-		if(isNaN(longitude)){ mapme = false;  error = 'longitude is NaN; ' }
-		if(isNaN(latitude)){ mapme = false;  error = 'latitude is NaN; ' }
-		if(mapme)
-		{
+			var error = '';
+			if(longitude == ''){ mapme = false; error = 'longitude is empy; '}
+			if(latitude == ''){ mapme = false; error = 'latitude is empy; ' }
+			if(start == ''){ mapme = false; error = 'start is empy; ' }
+			if(start == null){ mapme = false; error = 'start is null; ' }
 
-			var icon = L.icon({
-				iconUrl: imagelocalpath,
-				iconSize:     [25, 25], // size of the icon
-			});
-
-			var markerdata = 
+			if(isNaN(longitude)){ mapme = false;  error = 'longitude is NaN; ' }
+			if(isNaN(latitude)){ mapme = false;  error = 'latitude is NaN; ' }
+			if(mapme)
 			{
-				id: i,
-				name: val.Title,
-				lat: latitude,
-				lng: longitude,
-				start: new Date(start,1,1),
-				year: start,
-				// type: 'point',
-				imageurl: imagelocalpath,
-				imagehtml: imagehtml,
-				// content: val.Title.substring(0,10)+'...'
-				tooltip: imagehtml,
-				icon:   icon,
-				type: 'point'
+				var icon = L.icon({
+					iconUrl: imagelocalpath,
+					iconSize:     [25, 25], // size of the icon
+				});
+
+				var markerdata = 
+				{
+					id: i,
+					name: val.Title,
+					lat: latitude,
+					lng: longitude,
+					start: new Date(start,1,1),
+					year: start,
+					// type: 'point',
+					imageurl: imagelocalpath,
+					imagehtml: imagehtml,
+					// content: val.Title.substring(0,10)+'...'
+					tooltip: imagehtml,
+					icon:   icon,
+					type: 'point'
+				}
+
+				// add the data to the timebar items array
+				latimes.timebaritems.push(markerdata);
+
+				var content = '<div class="item" onclick="latimes.popup('+i+')" ><div class="year-in-box">'+start+'</div><div>'+imagehtml+'</div></div>';
+
+				$('#photo-container').slick('slickAdd',content);
+
+				var marker = L.marker([latitude,longitude]).bindPopup(val.Title+'<br>'+imagefullhtml);
+				latimes.markers.addLayer(marker);
 			}
+			else
+			{
+				console.log(error)
+			}
+		})
 
-			// add the data to the timebar items array
-			latimes.timebaritems.push(markerdata);
+		latimes.map.addLayer(latimes.markers);
+		latimes.map.fitBounds(latimes.markers.getBounds());
 
-			var content = '<div class="item" onclick="latimes.popup('+i+')" ><div class="year-in-box">'+start+'</div><div>'+imagehtml+'</div></div>';
+		// now that the loop has completed, create the timebar
+		latimes.createTimebar();
 
-			$('#photo-container').slick('slickAdd',content);
-
-			var marker = L.marker([latitude,longitude]).bindPopup(val.Title+'<br>'+imagefullhtml);
-			latimes.markers.addLayer(marker);
-		}
-		else
-		{
-			console.log(error)
-		}
-	})
-
-	latimes.map.addLayer(latimes.markers);
-	latimes.map.fitBounds(latimes.markers.getBounds());
-
-	// now that the loop has completed, create the timebar
-	latimes.createTimebar();
-
+	}
+	
 }
 
 /*******************
@@ -264,6 +277,7 @@ latimes.popup = function(id)
 		// variableWidth: true,
 		// adaptiveHeight: true
 	});
+	$('.slick').slick('slickGoTo',id)
 	modal.close();
 	modal.open();
 }
