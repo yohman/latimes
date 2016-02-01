@@ -12,6 +12,7 @@
 	<!-- Foundation -->
 	<link rel="stylesheet" href="css/foundation.css" />
 	<link rel="stylesheet" href="css/app.css" />
+
 	<!-- Compressed JavaScript -->
 	<script src="https://cdn.jsdelivr.net/foundation/6.1.1/foundation.min.js"></script>
 
@@ -22,14 +23,25 @@
 	<!-- Load Esri Leaflet from CDN -->
 	<script src="//cdn.jsdelivr.net/leaflet.esri/1.0.0/esri-leaflet.js"></script>
 
+	<!-- Stamen -->
+	<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+
 	<!-- visjs -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/3.11.0/vis.min.js"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/3.11.0/vis.min.css" rel="stylesheet" type="text/css" />
 
+	<!-- papa parse -->
+	<script type="text/javascript" src="js/papaparse.min.js"></script>
+	
     <!-- Owl Carousel Assets -->
     <link href="owl-carousel/owl.carousel.css" rel="stylesheet">
     <link href="owl-carousel/owl.theme.css" rel="stylesheet">
     <script src="owl-carousel/owl.carousel.js"></script>
+
+    <!-- slick carousel -->
+	<link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
+	<script type="text/javascript" src="slick/slick.min.js"></script>
 
 	<!-- stylesheet -->
 	<link href="css/style.css" rel="stylesheet" type="text/css" />
@@ -42,12 +54,12 @@
 <body>
 
 
-<div class="row columns" id="header"><h2>LA Times Photo Arhive</h2></div>
+<div class="row columns" id="header"><h2>LA Times Photo Archive</h2></div>
 <div class="row">
 	<div class="small-6 large-5 columns">
 		<div class="input-group">
 			<span class="input-group-label">Search:</span>
-			<input type="text" class="input-group-field" id="search-text" placeholder="ex: magic, pasadena, women" tabindex="1">
+			<input type="text" class="input-group-field" id="search-text" placeholder="ex: magic, pasadena, women" tabindex="1" value="magic">
 			<div class="input-group-button">
 				<button type="button" class="button" onclick="latimes.searchObjects()" tabindex="2">search</button>
 			</div>
@@ -56,10 +68,8 @@
 	<div class="small-6 large-7 columns" id="results-title"></div>
 </div>
 
-<div class="row" id="timebar"></div>
-<div class="row" id="map"></div>
 <div class="row">
-	<div id="photo-container" class="owl-carousel">
+	<div id="photo-container" >
 	  
 	  <div class="item"><h1>1</h1></div>
 	  <div class="item"><h1>2</h1></div>
@@ -84,16 +94,10 @@
 
 	</div>
 </div>
+<div class="row" id="map"></div>
+<div class="row" id="timebar"></div>
 
-<div class="reveal" id="modal" data-reveal data-reset-on-close="true">
-	<h2 id="modal-title"></h2>
-	<div id='modal-content'></div>
-	<div class="caption" id='modal-caption'></div>
-	<button class="close-button" data-close aria-label="Close reveal" type="button">
-		<span aria-hidden="true">&times;</span>
-	</button>
-</div>
-
+<div class="reveal" id="modal" data-reveal data-reset-on-close="false" style=""></div>
 
 	<!-- javascript -->
 	<script src="js/latimes.js"></script>

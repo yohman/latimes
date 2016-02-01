@@ -6,8 +6,9 @@ p {text-align:center}
 	background-color: #666;
 }
 
-#header h2 {
+h2 {
 	font-family: 'Josefin Slab', serif;
+	color: #ccc;
 }
 /*#container {
 	width:100%;
@@ -34,8 +35,10 @@ p {text-align:center}
 	/*padding:150px 5px*/
 }
 
-#caption {
+.caption {
 	font-size: .8em;
+	font-family: 'Josefin Slab', serif;
+	color: #ccc;
 }
 
 #photo-container .item{
@@ -47,6 +50,7 @@ p {text-align:center}
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	text-align: center;
+	height: 120px;
 	/*height:auto;*/
 }
 #photo-container .item img{
@@ -54,4 +58,39 @@ p {text-align:center}
 	display: block;/*
 	min-height: 212px;
 	max-height: 300px;*/
+}
+
+.timeline {
+	border: 0px solid black;
+	font-size: .8em;
+	background-color: #aaa;
+}
+
+/* alternating column backgrounds */
+.vis-time-axis .vis-grid.vis-odd {
+	background: #f5f5f5;
+}
+
+.vis.timeline .item {
+	border-color: #fff;
+}
+
+.orbit-container {
+	height: 450px;
+}
+
+#modal {
+    padding: 30px;
+    background-color:#444;
+    max-height: 450px;
+}
+
+.year-in-box {
+	/*position:absolute;*/
+	top:0;
+	color:black;
+	background-color:rgba(255,255,255,0.6);
+	font-size: .8em;
+	font-family: 'Josefin Slab', serif;
+
 }
